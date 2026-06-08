@@ -53,6 +53,9 @@ dmypy.json
 .env
 .venv
 
+# Rehearsal
+rehearsal/
+
 # Rust
 target/
 Cargo.lock

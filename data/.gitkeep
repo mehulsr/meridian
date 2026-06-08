@@ -1,0 +1,10 @@
+"""Generate sample CSV if missing."""
+
+from pathlib import Path
+
+from meridian.bench.datasets import write_sample_csv
+
+DATA = Path(__file__).resolve().parent / "sample_events.csv"
+
+if not DATA.exists():
+    write_sample_csv(DATA, rows=8000)

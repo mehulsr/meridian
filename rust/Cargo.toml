@@ -1,0 +1,49 @@
+[package]
+name = "meridian"
+version = "0.1.0"
+edition = "2021"
+description = "Columnar in-memory analytics engine (Rust port of the Python meridian)"
+license = "MIT"
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+debug = 1          # line-level symbols for flamegraphs; strip = false is the default
+
+# Inherits release settings but keeps full debug info for profiling sessions.
+# Use with: cargo build --profile profiling
+[profile.profiling]
+inherits = "release"
+debug = 2
+
+[lib]
+name = "meridian"
+path = "src/lib.rs"
+
+[[bin]]
+name = "meridian"
+path = "src/main.rs"
+
+[dependencies]
+# Data-parallelism for scans / group-by / sort fan-out (replaces the Python hot loops).
+rayon = "1.10"
+# Fast SwissTable hash maps for the group-by engine and hash/composite indexes.
+hashbrown = "0.15"
+# Fast, DoS-resistant hasher used by hashbrown maps and ad-hoc hashing.
+ahash = "0.8"
+# Structured error hierarchy (mirrors core/errors.py: MeridianError + variants).
+thiserror = "2.0"
+# WAL record (de)serialization and JSONL ingest (storage/wal.py, ingest/json_reader.py).
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+# CSV ingestion (ingest/csv_reader.py).
+csv = "1.3"
+# CLI argument parsing (cli/main.py argparse equivalent).
+clap = { version = "4.5", features = ["derive"] }
+# Regex for inverted index tokenization.
+regex = "1.10"
+
+[dev-dependencies]
+# Mirrors the pytest suite under tests/.
