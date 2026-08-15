@@ -1,5 +1,7 @@
 # Meridian
 
+Goal: Learn Rust.
+
 Meridian is a columnar in-memory analytics engine written in Rust, ported from its Python implementation. It ingests event batches, stores them in compressed column chunks, indexes hot columns, and executes a small SQL-like query language over the data.
 
 
